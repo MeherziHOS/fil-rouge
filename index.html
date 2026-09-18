@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fil Rouge</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="identite-site">
+            <h1>Fil Rouge</h1>
+            <p>Matériel informatique</p>
+        </div>
+
+        <nav class="navbar">
+
+            <a href="#accueil">Accueil</a>
+            <a href="#produits">Produits</a>
+            <a href="#contact">Contact</a>
+            <a href="#compte">Mon compte</a>
+            <a href="#panier">Panier</a>
+
+        </nav>
+    </header>
+    <section id="accueil" class="hero">
+
+        <div class="hero-contenu">
+
+            <p class="hero-surtitre">
+                INFORMATIQUE • GAMING • ACCESSOIRES
+            </p>
+
+            <h2>ÉQUIPEZ-VOUS AUTREMENT.</h2>
+
+            <p class="hero-description">
+                Découvrez notre sélection de matériel informatique
+                pour travailler, jouer et créer.
+            </p>
+
+            <a href="#produits" class="btn-hero">
+                Voir les produits
+            </a>
+
+        </div>
+
+    </section>
+
+    <section id="produits" class="section-produits">
+        <h2>Nos produits</h2>
+        <div id="catalogue"></div>
+    </section>
+
+    <section id="panier-section" class="section-panier">
+
+        <h2>Mon panier</h2>
+
+        <div class="panier-conteneur">
+
+            <!-- Les produits du panier sont créés ici par JavaScript -->
+            <div id="panier"></div>
+
+            <!-- Résumé de la commande -->
+            <div class="resume-panier">
+
+                <h3>Récapitulatif</h3>
+
+                <p id="totalPanier">Total : 0€</p>
+
+                <p id="reductionPanier">Réduction : 0€</p>
+
+                <hr>
+
+                <p id="totalAPayer">À payer : 0€</p>
+
+                <button id="btnValiderCommande">
+                    Valider la commande
+                </button>
+
+                <p id="messageCommande"></p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section id="contact" class="section-contact">
+
+        <h2>Contactez-nous</h2>
+
+        <p class="contact-intro">
+            Une question sur un produit ou une commande ?
+            Notre équipe est à votre écoute.
+        </p>
+
+        <div class="contact-conteneur">
+
+            <!-- Informations -->
+            <div class="contact-infos">
+
+                <h3>Besoin d'aide ?</h3>
+
+                <p>
+                    Nous sommes disponibles pour vous accompagner
+                    avant et après votre commande.
+                </p>
+
+                <div class="contact-detail">
+                    <strong>Email</strong>
+                    <span>contact@filrouge.fr</span>
+                </div>
+
+                <div class="contact-detail">
+                    <strong>Téléphone</strong>
+                    <span>01 00 00 00 00</span>
+                </div>
+
+                <div class="contact-detail">
+                    <strong>Horaires</strong>
+                    <span>Lundi - Vendredi : 9h00 - 18h00</span>
+                </div>
+
+            </div>
+
+
+            <!-- Formulaire -->
+            <form class="form-contact">
+
+                <div class="form-ligne">
+
+                    <div>
+                        <label for="contactNom">Nom</label>
+                        <input type="text" id="contactNom" placeholder="Votre nom" required>
+                    </div>
+
+                    <div>
+                        <label for="contactEmail">Email</label>
+                        <input type="email" id="contactEmail" placeholder="votre@email.fr" required>
+                    </div>
+
+                </div>
+
+                <label for="contactSujet">Sujet</label>
+                <input type="text" id="contactSujet" placeholder="Objet de votre demande" required>
+
+                <label for="contactMessage">Message</label>
+
+                <textarea id="contactMessage" rows="6" placeholder="Écrivez votre message..." required></textarea>
+
+                <button type="submit" class="btn-contact">
+                    Envoyer le message
+                </button>
+
+            </form>
+
+        </div>
+
+    </section>
+
+    <section id="compte" class="section-compte">
+
+        <h2>Mon compte</h2>
+
+        <p class="compte-intro">
+            Connectez-vous pour retrouver vos informations
+            et suivre vos commandes.
+        </p>
+
+        <div class="compte-conteneur">
+            <div class="compte-bloc">
+
+                <h3>Déjà client ?</h3>
+
+                <label for="connexionEmail">Email</label>
+                <input type="email" id="connexionEmail" placeholder="votre@email.fr" autocomplete="email" required>
+
+                <label for="connexionMotDePasse">
+                    Mot de passe
+                </label>
+
+                <input type="password" id="connexionMotDePasse" placeholder="Votre mot de passe"
+                    autocomplete="current-password" required>
+
+                <button type="button" class="btn-compte">
+                    Se connecter
+                </button>
+
+                <a href="#" class="mot-de-passe-oublie">
+                    Mot de passe oublié ?
+                </a>
+
+            </div>
+
+            <div class="compte-bloc">
+
+                <h3>Nouveau client ?</h3>
+
+                <p>
+                    Créez votre compte pour retrouver vos commandes
+                    et faciliter vos prochains achats.
+                </p>
+
+                <button type="button" class="btn-compte">
+                    Créer un compte
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="section-admin">
+
+        <h2>Espace administration</h2>
+
+        <div class="admin-conteneur">
+
+            <div class="admin-bloc">
+
+                <h3>Gestion du catalogue</h3>
+
+                <label for="nomProduit">Nom du produit :</label>
+                <input type="text" id="nomProduit">
+
+                <label for="prixProduit">Prix :</label>
+                <input type="number" id="prixProduit">
+
+                <label for="stockProduit">Stock :</label>
+                <input type="number" id="stockProduit">
+
+                <p id="messageErreur"></p>
+
+                <div class="admin-actions">
+
+                    <button id="btnAjouter">
+                        Ajouter le produit
+                    </button>
+
+                    <button id="btnAnnuler">
+                        Annuler
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="admin-bloc">
+
+                <h3>Historique des commandes</h3>
+
+                <div id="historiqueCommandes"></div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <footer class="footer">
+
+        <div class="footer-conteneur">
+
+            <div class="footer-colonne">
+
+                <h3>FIL ROUGE</h3>
+
+                <p>
+                    Votre boutique de matériel informatique,
+                    gaming et accessoires.
+                </p>
+
+            </div>
+
+
+            <div class="footer-colonne">
+
+                <h4>Navigation</h4>
+
+                <a href="#accueil">Accueil</a>
+                <a href="#produits">Produits</a>
+                <a href="#panier-section">Panier</a>
+                <a href="#contact">Contact</a>
+
+            </div>
+
+
+            <div class="footer-colonne">
+
+                <h4>Mon compte</h4>
+
+                <a href="#compte">Se connecter</a>
+                <a href="#compte">Créer un compte</a>
+                <a href="#">Mes commandes</a>
+
+            </div>
+
+
+            <div class="footer-colonne">
+
+                <h4>Informations</h4>
+
+                <a href="#">Livraison</a>
+                <a href="#">Paiement sécurisé</a>
+                <a href="#">Mentions légales</a>
+                <a href="#">Politique de confidentialité</a>
+
+            </div>
+
+        </div>
+
+        <div class="footer-bas">
+            <p>© 2026 Fil Rouge — Tous droits réservés</p>
+        </div>
+
+    </footer>
+    <script src="script.js"></script>
+</body>
+
+</html>

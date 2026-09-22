@@ -14,8 +14,6 @@ try {//PHP essaie de se connecter
         $motDePasse
     );
 
-    echo "Connexion réussie !";
-
 } catch (PDOException $erreur) {//si la connexion échoue, récupère l'erreur
 
     echo "Erreur de connexion : " . $erreur->getMessage();

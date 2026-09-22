@@ -17,7 +17,7 @@
 html {
     width: 100%;
     scroll-behavior: smooth;
-} 
+}
 
 body {
     background-color: var(--gris-clair);
@@ -26,6 +26,7 @@ body {
     padding: 0;
     width: 100%;
 }
+
 /* =========================
    BOUTONS GÉNÉRAUX
    ========================= */
@@ -80,9 +81,11 @@ button:hover,
 
     cursor: pointer;
 }
+
 .btn-supprimer:hover {
     background-color: var(--rouge);
 }
+
 section {
     background-color: var(--blanc);
     width: 100%;
@@ -222,6 +225,7 @@ input {
 .navbar a:hover {
     color: var(--rouge);
 }
+
 /* =========================
    BANDEAU D'ACCUEIL
    ========================= */
@@ -351,9 +355,10 @@ input {
 }
 
 .btn-ajouter-catalogue {
-     margin-top: auto;
+    margin-top: auto;
     padding: 14px;
 }
+
 .image-produit {
     width: 100%;
     height: 220px;
@@ -467,7 +472,7 @@ input {
     padding: 70px 5%;
 }
 
-.section-admin > h2 {
+.section-admin>h2 {
     text-align: center;
 
     color: var(--blanc);
@@ -480,23 +485,28 @@ input {
 }
 
 .admin-conteneur {
+    width: 100%;
     max-width: 1200px;
     margin: 0 auto;
 
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 35px;
+    display: flex;
+    flex-direction: column;
 
-    align-items: start;
+    gap: 40px;
 }
 
-.admin-bloc {
-    background-color: var(--blanc);
 
+
+.admin-bloc {
+    width: 100%;
+    box-sizing: border-box;
+    background-color: var(--blanc);
     padding: 30px;
     border-radius: 10px;
-
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
 }
 
 .admin-bloc h3 {
@@ -531,7 +541,7 @@ input {
     padding: 80px 5%;
 }
 
-.section-contact > h2 {
+.section-contact>h2 {
     text-align: center;
 
     color: var(--noir);
@@ -574,7 +584,7 @@ input {
     color: var(--blanc);
 }
 
-.contact-infos > p {
+.contact-infos>p {
     color: var(--gris-clair);
     line-height: 1.6;
 
@@ -636,7 +646,7 @@ input {
     padding: 80px 5%;
 }
 
-.section-compte > h2 {
+.section-compte>h2 {
     text-align: center;
     color: var(--noir);
 
@@ -870,4 +880,84 @@ input {
         grid-template-columns: 1fr;
         gap: 30px;
     }
+}
+
+/* =================================
+   LISTE DES PRODUITS - ADMIN
+================================= */
+
+#listeProduitsAdmin {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.produit-admin {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr auto auto;
+    align-items: center;
+    gap: 12px;
+
+    padding: 15px;
+    background: #f5f5f5;
+    border-radius: 8px;
+}
+
+.produit-admin strong {
+    font-size: 16px;
+}
+
+.produit-admin span {
+    font-size: 14px;
+}
+
+/* Boutons administration */
+
+.btn-modifier-admin,
+.btn-supprimer-admin {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-modifier-admin {
+    background: #2F343A;
+    color: white;
+}
+
+.btn-supprimer-admin {
+    background: #C62828;
+    color: white;
+}
+
+
+/* Bouton Ajouter / Enregistrer dans l'administration */
+
+.titre-liste-admin {
+    width: 100%;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+.zone-bouton-ajouter {
+    width: 100%;
+    margin-top: 25px;
+}
+
+.zone-bouton-ajouter #btnAjouter {
+    display: block;
+    width: 100%;
+
+    padding: 15px 20px;
+    margin: 0;
+
+    background-color: var(--rouge);
+    color: var(--blanc);
+
+    border: none;
+    border-radius: 5px;
+
+    font-weight: bold;
+    cursor: pointer;
 }

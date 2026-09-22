@@ -2,7 +2,7 @@ CREATE TABLE produit (
     id_produit INT PRIMARY KEY AUTO_INCREMENT,
     nom VARCHAR(100),
     prix DECIMAL(10,2),
-    stock INT
+    stock INTVARCHAR(255)
 );
 
 CREATE TABLE client (

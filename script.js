@@ -1,28 +1,27 @@
+console.log("NOUVEAU SCRIPT CHARGÉ");
 //============
 //1. Données
 //============
 
 // Catalogue principal : tous les produits disponibles à la vente
-let catalogue = [
-    {
-        nom: "Clavier mécanique",
-        prix: 59,
-        stock: 10,
-        image: "images/clavier.jpg"
-    },
-    {
-        nom: "Souris gaming",
-        prix: 39,
-        stock: 5,
-        image: "images/souris.jpg"
-    },
-    {
-        nom: "Ecran 27 pouces",
-        prix: 199,
-        stock: 5,
-        image: "images/ecran.jpg"
-    }
-];
+let catalogue = [];
+
+// Récupération des produits depuis la base de données MariaDB
+function chargerCatalogue() {
+
+    fetch("backend/produits.php")
+        .then(response => response.json())
+        .then(data => {
+
+            catalogue = data;
+
+            afficherCatalogue(catalogue);
+            afficherProduitsAdmin(catalogue);
+        });
+
+}
+
+chargerCatalogue();
 
 // Panier actuel du client
 let produits = [];
@@ -235,6 +234,105 @@ function afficherCatalogue(catalogue) {
         });
     }
 
+}
+function afficherProduitsAdmin(catalogue) {
+
+    let zoneAdmin = document.getElementById("listeProduitsAdmin");
+
+    zoneAdmin.innerHTML = "";
+
+    for (let i = 0; i < catalogue.length; i++) {
+
+        zoneAdmin.innerHTML =
+            zoneAdmin.innerHTML +
+            "<div class='produit-admin'>" +
+            "<strong>" + catalogue[i].nom + "</strong>" +
+            "<span>Prix : " + catalogue[i].prix + " €</span>" +
+            "<span>Stock : " + catalogue[i].stock + "</span>" +
+            "<button class='btn-modifier-admin' data-index='" + i + "'>Modifier</button>" +
+            "<button class='btn-supprimer-admin' data-index='" + i + "'>Supprimer</button>" +
+            "</div>";
+    }
+    // Récupérer tous les boutons Modifier de l'administration
+    let boutonsModifierAdmin =
+        document.querySelectorAll(".btn-modifier-admin");
+
+    // Clic sur un bouton Modifier
+    for (let i = 0; i < boutonsModifierAdmin.length; i++) {
+
+        boutonsModifierAdmin[i].addEventListener("click", function (event) {
+
+            // Récupérer l'index du produit sélectionné
+            let index = event.target.dataset.index;
+
+            // Mémoriser le produit en cours de modification
+            indexModification = Number(index);
+
+            // Récupérer le produit
+            let produitAModifier = catalogue[indexModification];
+
+            // Remplir automatiquement le formulaire
+            champNom.value = produitAModifier.nom;
+            champPrix.value = produitAModifier.prix;
+            champStock.value = produitAModifier.stock;
+
+            // Transformer le bouton Ajouter
+            boutonAjouter.textContent = "Enregistrer la modification";
+
+            // Afficher le bouton Annuler
+            boutonAnnuler.style.display = "inline-block";
+        });
+    }
+
+    // Récupérer tous les boutons Supprimer de l'administration
+    let boutonsSupprimerAdmin =
+        document.querySelectorAll(".btn-supprimer-admin");
+
+
+    // Clic sur Supprimer
+    for (let i = 0; i < boutonsSupprimerAdmin.length; i++) {
+
+        boutonsSupprimerAdmin[i].addEventListener("click", function (event) {
+
+            // Récupérer l'index du produit sélectionné
+            let index = event.target.dataset.index;
+
+            // Récupérer le produit
+            let produitASupprimer = catalogue[index];
+            console.log("Produit à supprimer :", produitASupprimer);
+
+            // Demander confirmation
+            let confirmation = confirm(
+                "Voulez-vous vraiment supprimer " +
+                produitASupprimer.nom +
+                " ?"
+            );
+
+            if (confirmation === true) {
+
+                // Préparer l'identifiant à envoyer à PHP
+                let donnees = new FormData();
+
+                donnees.append(
+                    "id",
+                    produitASupprimer.id_produit
+                );
+
+                // Demander au back-end de supprimer le produit
+                fetch("backend/supprimer_produit.php", {
+                    method: "POST",
+                    body: donnees
+                })
+                    .then(() => {
+
+                        // Recharger le catalogue depuis MariaDB
+                        chargerCatalogue();
+
+                    });
+            }
+
+        });
+    }
 }
 
 // Affiche le contenu actuel du panier dans la page
@@ -478,16 +576,48 @@ boutonAjouter.addEventListener("click", function () {
     // null = aucun produit en cours de modification
     // donc on AJOUTE un nouveau produit
     if (indexModification === null) {
-        catalogue.push(produit);
+        // Préparer les données du nouveau produit
+        let donnees = new FormData();
+
+        donnees.append("nom", nom);
+        donnees.append("prix", prix);
+        donnees.append("stock", stock);
+
+        // Envoyer les données au back-end
+        fetch("backend/ajouter_produit.php", {
+            method: "POST",
+            body: donnees
+        })
+            .then(() => {
+                chargerCatalogue();
+            });
     } else {
-        // Sinon on REMPLACE le produit sélectionné
-        catalogue[indexModification] = produit;
+        // Récupérer le produit actuellement sélectionné
+        let produitAModifier = catalogue[indexModification];
+
+        // Préparer les données à envoyer à PHP
+        let donnees = new FormData();
+
+        donnees.append("id", produitAModifier.id_produit);
+        donnees.append("nom", nom);
+        donnees.append("prix", prix);
+        donnees.append("stock", stock);
+
+        // Envoyer la modification à MariaDB
+        fetch("backend/modifier_produit.php", {
+            method: "POST",
+            body: donnees
+        })
+            .then(() => {
+                chargerCatalogue();
+            });
         // Quitter le mode modification
         indexModification = null;
         boutonAjouter.textContent = "Ajouter le produit";
 
         boutonAnnuler.style.display = "none";
     }
+
     // Reconstruire le catalogue avec les nouvelles données
     afficherCatalogue(catalogue);
     // Vider le formulaire

@@ -169,7 +169,7 @@
             et suivre vos commandes.
         </p>
 
-        <div class="compte-conteneur">
+        <div class="compte-conteneur" id="formulairesCompte">
             <div class="compte-bloc">
 
                 <h3>Déjà client ?</h3>
@@ -184,9 +184,10 @@
                 <input type="password" id="connexionMotDePasse" placeholder="Votre mot de passe"
                     autocomplete="current-password" required>
 
-                <button type="button" class="btn-compte">
+                <button type="button" id="btnConnexion" class="btn-compte">
                     Se connecter
                 </button>
+                <p id="messageConnexion"></p>
 
                 <a href="#" class="mot-de-passe-oublie">
                     Mot de passe oublié ?
@@ -196,24 +197,40 @@
 
             <div class="compte-bloc">
 
-                <h3>Nouveau client ?</h3>
+                <h3>Créer un compte</h3>
 
-                <p>
-                    Créez votre compte pour retrouver vos commandes
-                    et faciliter vos prochains achats.
-                </p>
+                <label for="inscriptionNom">Nom</label>
+                <input type="text" id="inscriptionNom">
 
-                <button type="button" class="btn-compte">
-                    Créer un compte
+                <label for="inscriptionEmail">Email</label>
+                <input type="email" id="inscriptionEmail">
+
+                <label for="inscriptionMotDePasse">Mot de passe</label>
+                <input type="password" id="inscriptionMotDePasse">
+
+                <button type="button" id="btnInscription" class="btn-compte">
+                    Créer mon compte
                 </button>
+
+                <p id="messageInscription"></p>
 
             </div>
 
         </div>
 
+        <div id="clientConnecte"></div>
+
+        <div class="mes-commandes-client">
+
+            <h3>Mes commandes</h3>
+
+            <div id="mesCommandesClient"></div>
+
+        </div>
+
     </section>
 
-    <section class="section-admin">
+    <section class="section-admin" id="sectionAdmin">
 
         <h2>Espace administration</h2>
 

@@ -64,9 +64,238 @@ let zoneCatalogue = document.getElementById("catalogue");
 
 // Message affiché après validation d'une commande
 let zoneMessageCommande = document.getElementById("messageCommande");
-
 // Historique des commandes
 let zoneHistorique = document.getElementById("historiqueCommandes");
+// Formulaire d'inscription
+let inscriptionNom = document.getElementById("inscriptionNom");
+let inscriptionEmail = document.getElementById("inscriptionEmail");
+let inscriptionMotDePasse = document.getElementById("inscriptionMotDePasse");
+
+let boutonInscription = document.getElementById("btnInscription");
+let messageInscription = document.getElementById("messageInscription");
+
+// Formulaire de connexion
+let connexionEmail = document.getElementById("connexionEmail");
+let connexionMotDePasse = document.getElementById("connexionMotDePasse");
+let boutonConnexion = document.getElementById("btnConnexion");
+
+// Zone Mes commandes du client
+let zoneMesCommandesClient = document.getElementById("mesCommandesClient");
+
+let zoneClientConnecte = document.getElementById("clientConnecte");
+
+let messageConnexion = document.getElementById("messageConnexion");
+
+let formulairesCompte = document.getElementById("formulairesCompte");
+
+let sectionAdmin = document.getElementById("sectionAdmin");
+
+sectionAdmin.style.display = "none";
+
+function verifierClientConnecte() {
+
+    fetch("backend/verifier_session.php")
+        .then(response => response.json())
+        .then(data => {
+
+            if (data.connecte === true) {
+
+                if (data.role === "admin") {
+                    sectionAdmin.style.display = "block";
+                }
+
+                formulairesCompte.style.display = "none";
+                zoneClientConnecte.innerHTML =
+                    "<p>Bonjour " + data.nom + "</p>" +
+                    "<button id='btnDeconnexion'>Se déconnecter</button>";
+
+                let boutonDeconnexion =
+                    document.getElementById("btnDeconnexion");
+
+                boutonDeconnexion.addEventListener("click", function () {
+
+                    fetch("backend/deconnexion.php")
+                        .then(response => response.text())
+                        .then(data => {
+
+                            console.log("Déconnexion :", data);
+
+                            location.reload();
+
+                        });
+
+                });
+            }
+
+        });
+}
+
+verifierClientConnecte();
+
+// Charger les commandes du client connecté
+function chargerMesCommandes() {
+
+    fetch("backend/mes_commandes.php")
+        .then(response => response.json())
+        .then(data => {
+
+            zoneMesCommandesClient.innerHTML = "";
+
+            for (let i = 0; i < data.length; i++) {
+
+                zoneMesCommandesClient.innerHTML +=
+                    "<div class='commande-client'>" +
+                    "<strong>Commande n°" + data[i].id_commande + "</strong>" +
+                    "<span>Date : " + data[i].date_commande + "</span>" +
+                    "<span>" + data[i].nom +
+                    " × " + data[i].quantite + "</span>" +
+                    "<span>Prix : " + data[i].prix + " €</span>" +
+                    "</div>";
+            }
+
+        });
+}
+
+chargerMesCommandes();
+
+// Clic sur Se connecter
+boutonConnexion.addEventListener("click", function () {
+
+    let donnees = new FormData();
+
+    donnees.append("email", connexionEmail.value);
+    donnees.append("mot_de_passe", connexionMotDePasse.value);
+
+    fetch("backend/connexion_client.php", {
+        method: "POST",
+        body: donnees,
+        credentials: "same-origin"
+    })
+        .then(response => response.text())
+        .then(data => {
+
+            console.log("Réponse connexion :", data);
+
+            if (data === "Connexion réussie") {
+
+                location.reload();
+
+            } else {
+
+                messageConnexion.textContent = data;
+
+            }
+
+        });
+
+});
+
+// Clic sur Créer mon compte
+boutonInscription.addEventListener("click", function () {
+
+    let donnees = new FormData();
+
+    donnees.append("nom", inscriptionNom.value);
+    donnees.append("email", inscriptionEmail.value);
+    donnees.append("mot_de_passe", inscriptionMotDePasse.value);
+
+    fetch("backend/inscription.php", {
+        method: "POST",
+        body: donnees
+    })
+        .then(response => response.text())
+        .then(data => {
+            console.log("Réponse inscription :", data);
+            messageInscription.textContent = data;
+        });
+
+});
+
+// Charger l'historique des commandes depuis MariaDB
+function chargerHistoriqueCommandes() {
+
+    fetch("backend/historique_commandes.php")
+        .then(response => response.json())
+        .then(data => {
+
+            console.log("Historique MariaDB :", data);
+
+            // Vider l'ancien historique
+            zoneHistorique.innerHTML = "";
+
+            // Regrouper les produits par commande
+            let commandesGroupees = {};
+
+            for (let i = 0; i < data.length; i++) {
+
+                let idCommande = data[i].id_commande;
+
+                // Créer la commande si elle n'existe pas encore
+                if (commandesGroupees[idCommande] === undefined) {
+
+                    commandesGroupees[idCommande] = {
+                        date: data[i].date_commande,
+                        produits: []
+                    };
+                }
+
+                // Ajouter le produit dans la commande
+                commandesGroupees[idCommande].produits.push({
+                    nom: data[i].nom,
+                    quantite: data[i].quantite,
+                    prix: data[i].prix
+                });
+            }
+
+
+            // Afficher les commandes regroupées
+            for (let idCommande in commandesGroupees) {
+
+                let commande = commandesGroupees[idCommande];
+                let htmlProduits = "";
+                let totalCommande = 0;
+
+                // Construire la liste des produits
+                for (let i = 0; i < commande.produits.length; i++) {
+
+                    totalCommande =
+                        totalCommande +
+                        commande.produits[i].prix *
+                        commande.produits[i].quantite;
+
+                    htmlProduits =
+                        htmlProduits +
+                        "<div class='ligne-historique'>" +
+                        commande.produits[i].nom +
+                        " × " +
+                        commande.produits[i].quantite +
+                        " — " +
+                        commande.produits[i].prix +
+                        " €" +
+                        "</div>";
+                }
+
+                // Construire une seule carte par commande
+                zoneHistorique.innerHTML =
+                    zoneHistorique.innerHTML +
+                    "<div class='commande-historique'>" +
+                    "<strong>Commande n°" +
+                    idCommande +
+                    "</strong>" +
+                    "<span>Date : " +
+                    commande.date +
+                    "</span>" +
+                    htmlProduits +
+                    "<strong>Total : " +
+                    totalCommande.toFixed(2) +
+                    " €</strong>" +
+                    "</div>";
+            }
+
+        });
+}
+
+chargerHistoriqueCommandes();
 
 
 //======================
@@ -180,6 +409,7 @@ function afficherCatalogue(catalogue) {
                 let resultat = calculerProduit(produitCatalogue.prix, quantite);
 
                 let produit = {
+                    id_produit: produitCatalogue.id_produit,
                     nom: produitCatalogue.nom,
                     prix: produitCatalogue.prix,
                     stock: produitCatalogue.stock,
@@ -684,6 +914,29 @@ boutonValiderCommande.addEventListener("click", function () {
 
     commandes.push(commande);
     afficherCommandes(commandes);
+
+    // Préparer les données de la commande pour PHP
+    let donneesCommande = {
+        produits: commande.produits,
+        total: commande.total,
+        reduction: commande.reduction,
+        montantAPayer: commande.montantAPayer
+    };
+
+    console.log("Commande à envoyer :", donneesCommande);
+
+    // Envoyer la commande au back-end
+    fetch("backend/valider_commande.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(donneesCommande)
+    })
+        .then(response => response.text())
+        .then(data => {
+            console.log("Réponse PHP :", data);
+        });
 
 
     //Diminuer le stock

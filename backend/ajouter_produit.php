@@ -1,5 +1,6 @@
 <?php
 
+require_once "verifier_admin.php";
 require_once "connexion.php";
 
 // Récupérer les informations envoyées par JavaScript

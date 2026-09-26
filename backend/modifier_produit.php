@@ -8,7 +8,21 @@ $id = $_POST["id"];
 $nom = $_POST["nom"];
 $prix = $_POST["prix"];
 $stock = $_POST["stock"];
+// Vérifier que les données sont valides
+if (
+    empty(trim($nom)) ||
+    $prix === null ||
+    $prix <= 0 ||
+    $stock === null ||
+    $stock < 0
+) {
+    echo json_encode([
+        "success" => false,
+        "message" => "Données du produit invalides."
+    ]);
 
+    exit;
+}
 // Préparer la modification du produit
 $requete = $connexion->prepare(
     "UPDATE produit

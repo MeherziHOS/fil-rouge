@@ -7,6 +7,21 @@ require_once "connexion.php";
 $email = $_POST["email"];
 $motDePasse = $_POST["mot_de_passe"];
 
+// Vérifier que les champs sont remplis
+if (
+    empty(trim($email)) ||
+    empty(trim($motDePasse))
+) {
+    echo "Veuillez remplir tous les champs.";
+    exit;
+}
+
+// Vérifier le format de l'email
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    echo "Adresse email invalide.";
+    exit;
+}
+
 // Chercher le client grâce à son email
 $requete = $connexion->prepare(
     "SELECT * FROM client

@@ -193,6 +193,26 @@ boutonConnexion.addEventListener("click", function () {
 // Clic sur Créer mon compte
 boutonInscription.addEventListener("click", function () {
 
+    // Vérifier que tous les champs sont remplis
+    if (
+        inscriptionNom.value.trim() === "" ||
+        inscriptionEmail.value.trim() === "" ||
+        inscriptionMotDePasse.value.trim() === ""
+    ) {
+        messageInscription.textContent =
+            "Veuillez remplir tous les champs.";
+
+        return;
+    }
+
+    // Vérifier la longueur du mot de passe
+    if (inscriptionMotDePasse.value.length < 6) {
+
+        messageInscription.textContent =
+            "Le mot de passe doit contenir au moins 6 caractères.";
+
+        return;
+    }
     let donnees = new FormData();
 
     donnees.append("nom", inscriptionNom.value);
@@ -933,37 +953,46 @@ boutonValiderCommande.addEventListener("click", function () {
         },
         body: JSON.stringify(donneesCommande)
     })
-        .then(response => response.text())
+        .then(response => response.json())
         .then(data => {
+
             console.log("Réponse PHP :", data);
-        });
 
-
-    //Diminuer le stock
-    for (let i = 0; i < commande.produits.length; i++) {
-        for (let j = 0; j < catalogue.length; j++) {
-            if (commande.produits[i].nom === catalogue[j].nom) {
-                catalogue[j].stock = catalogue[j].stock - commande.produits[i].quantite;
-                break;
+            if (data.success === false) {
+                zoneMessageCommande.textContent = data.message;
+                return;
             }
-        }
-    }
 
-    //Rafraîchir le catalogue
-    afficherCatalogue(catalogue);
+            // Diminuer le stock
+            for (let i = 0; i < commande.produits.length; i++) {
 
-    //Message de confirmation
-    zoneMessageCommande.textContent =
-        "Commande validée ! Montant à payer : " +
-        commande.montantAPayer +
-        "€";
+                for (let j = 0; j < catalogue.length; j++) {
 
-    //Vider le panier
-    produits.length = 0;
-    affichePanier(produits);
-    mettreAjourTotaux(produits);
+                    if (commande.produits[i].nom === catalogue[j].nom) {
+
+                        catalogue[j].stock =
+                            catalogue[j].stock -
+                            commande.produits[i].quantite;
+
+                        break;
+                    }
+                }
+            }
+
+            // Rafraîchir le catalogue
+            afficherCatalogue(catalogue);
+
+            // Message de confirmation
+            zoneMessageCommande.textContent =
+                "Commande validée ! Montant à payer : " +
+                commande.montantAPayer +
+                "€";
+
+            // Vider le panier
+            produits.length = 0;
+
+            affichePanier(produits);
+            mettreAjourTotaux(produits);
+
+        });
 });
-
-
-
-

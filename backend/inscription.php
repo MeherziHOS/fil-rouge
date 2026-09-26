@@ -7,6 +7,28 @@ $nom = $_POST["nom"];
 $email = $_POST["email"];
 $motDePasse = $_POST["mot_de_passe"];
 
+// Vérifier que tous les champs sont remplis
+if (
+    empty(trim($nom)) ||
+    empty(trim($email)) ||
+    empty(trim($motDePasse))
+) {
+    echo "Veuillez remplir tous les champs.";
+    exit;
+}
+
+// Vérifier l'adresse email
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    echo "Adresse email invalide.";
+    exit;
+}
+
+// Vérifier la longueur du mot de passe
+if (strlen($motDePasse) < 6) {
+    echo "Le mot de passe doit contenir au moins 6 caractères.";
+    exit;
+}
+
 // Vérifier si l'email existe déjà
 $verification = $connexion->prepare(
     "SELECT id_client FROM client

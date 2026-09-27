@@ -32,6 +32,42 @@ let total = 0;
 // null = aucun produit en cours de modification
 let indexModification = null;
 
+// ==========================
+// PROGRAMMATION ORIENTÉE OBJET
+// ==========================
+
+class Produit {
+
+    constructor(id_produit, nom, prix, stock, quantite) {
+
+        this.id_produit = id_produit;
+        this.nom = nom;
+        this.prix = prix;
+        this.stock = stock;
+        this.quantite = quantite;
+
+        this.resultat = prix * quantite;
+    }
+    calculerResultat() {
+        this.resultat = this.prix * this.quantite;
+    }
+    augmenterQuantite() {
+
+        if (this.quantite < this.stock) {
+            this.quantite = this.quantite + 1;
+            this.calculerResultat();
+        }
+
+    }
+    diminuerQuantite() {
+
+        if (this.quantite > 1) {
+            this.quantite = this.quantite - 1;
+            this.calculerResultat();
+        }
+
+    }
+}
 
 //==================
 //2. Elément du DOM
@@ -498,33 +534,21 @@ function afficherCatalogue(catalogue) {
                     produitExiste = true;
 
                     // Augmenter seulement si la quantité est inférieure au stock
-                    if (produits[i].quantite < produits[i].stock) {
-
-                        produits[i].quantite =
-                            produits[i].quantite + 1;
-
-                        produits[i].resultat = calculerProduit(
-                            produits[i].prix,
-                            produits[i].quantite
-                        );
-                    }
-
+                    produits[i].augmenterQuantite();
                     break;
                 }
             }
 
             if (produitExiste === false) {
                 let quantite = 1;
-                let resultat = calculerProduit(produitCatalogue.prix, quantite);
 
-                let produit = {
-                    id_produit: produitCatalogue.id_produit,
-                    nom: produitCatalogue.nom,
-                    prix: produitCatalogue.prix,
-                    stock: produitCatalogue.stock,
-                    quantite: quantite,
-                    resultat: resultat
-                };
+                let produit = new Produit(
+                    produitCatalogue.id_produit,
+                    produitCatalogue.nom,
+                    produitCatalogue.prix,
+                    produitCatalogue.stock,
+                    quantite
+                );
 
                 produits.push(produit);
 
@@ -748,14 +772,7 @@ function affichePanier(produits) {
             let index = event.target.dataset.index;
             // Vérifier qu'on ne dépasse pas le stock disponible
             if (produits[index].quantite < produits[index].stock) {
-                // Augmenter la quantité de 1
-                produits[index].quantite = produits[index].quantite + 1;
-
-                // Recalculer le sous-total du produit
-                produits[index].resultat = calculerProduit(
-                    produits[index].prix,
-                    produits[index].quantite
-                );
+                produits[index].augmenterQuantite();
                 // Reconstruire le panier avec les nouvelles valeurs
                 affichePanier(produits);
                 // Recalculer Total / Réduction / À payer
@@ -773,12 +790,7 @@ function affichePanier(produits) {
 
             // Autoriser la diminution seulement au-dessus de 1
             if (produits[index].quantite > 1) {
-                // Diminuer la quantité
-                produits[index].quantite = produits[index].quantite - 1;
-                // Recalculer son sous-total
-                produits[index].resultat = calculerProduit(
-                    produits[index].prix,
-                    produits[index].quantite);
+                produits[index].diminuerQuantite();
 
                 affichePanier(produits);
                 mettreAjourTotaux(produits);

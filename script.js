@@ -1,4 +1,3 @@
-console.log("NOUVEAU SCRIPT CHARGÉ");
 //============
 //1. Données
 //============
@@ -25,9 +24,6 @@ chargerCatalogue();
 
 // Panier actuel du client
 let produits = [];
-
-// Historique des commandes validées
-let commandes = [];
 
 // Total actuel du panier
 let total = 0;
@@ -117,11 +113,7 @@ function verifierClientConnecte() {
                     fetch("backend/deconnexion.php")
                         .then(response => response.text())
                         .then(data => {
-
-                            console.log("Déconnexion :", data);
-
                             location.reload();
-
                         });
 
                 });
@@ -238,9 +230,6 @@ boutonConnexion.addEventListener("click", function () {
     })
         .then(response => response.text())
         .then(data => {
-            console.log("MES COMMANDES CLIENT :", data);
-            console.log("Réponse connexion :", data);
-
             if (data === "Connexion réussie") {
 
                 location.reload();
@@ -297,7 +286,6 @@ boutonInscription.addEventListener("click", function () {
     })
         .then(response => response.text())
         .then(data => {
-            console.log("Réponse inscription :", data);
             messageInscription.textContent = data;
         });
 
@@ -309,9 +297,6 @@ function chargerHistoriqueCommandes() {
     fetch("backend/historique_commandes.php")
         .then(response => response.json())
         .then(data => {
-
-            console.log("Historique MariaDB :", data);
-
             // Vider l'ancien historique
             zoneHistorique.innerHTML = "";
 
@@ -654,7 +639,6 @@ function afficherProduitsAdmin(catalogue) {
 
             // Récupérer le produit
             let produitASupprimer = catalogue[index];
-            console.log("Produit à supprimer :", produitASupprimer);
 
             // Demander confirmation
             let confirmation = confirm(
@@ -895,7 +879,6 @@ function mettreAjourTotaux(produits) {
 //5. Programme principal (Evénements)
 //================================
 affichePanier(produits);
-afficherCatalogue(catalogue);
 
 // AJOUTER OU MODIFIER UN PRODUIT
 boutonAjouter.addEventListener("click", function () {
@@ -974,7 +957,6 @@ boutonAjouter.addEventListener("click", function () {
     }
 
     // Reconstruire le catalogue avec les nouvelles données
-    afficherCatalogue(catalogue);
     // Vider le formulaire
     champNom.value = "";
     champPrix.value = "";
@@ -1037,9 +1019,6 @@ boutonValiderCommande.addEventListener("click", function () {
         })
     };
 
-    commandes.push(commande);
-    afficherCommandes(commandes);
-
     // Préparer les données de la commande pour PHP
     let donneesCommande = {
         produits: commande.produits,
@@ -1047,8 +1026,6 @@ boutonValiderCommande.addEventListener("click", function () {
         reduction: commande.reduction,
         montantAPayer: commande.montantAPayer
     };
-
-    console.log("Commande à envoyer :", donneesCommande);
 
     // Envoyer la commande au back-end
     fetch("backend/valider_commande.php", {
@@ -1060,8 +1037,6 @@ boutonValiderCommande.addEventListener("click", function () {
     })
         .then(response => response.json())
         .then(data => {
-
-            console.log("Réponse PHP :", data);
 
             if (data.success === false) {
                 zoneMessageCommande.textContent = data.message;

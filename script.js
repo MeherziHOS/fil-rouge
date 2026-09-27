@@ -141,26 +141,91 @@ function chargerMesCommandes() {
 
             zoneMesCommandesClient.innerHTML = "";
 
+            // Regrouper les produits par commande
+            let commandesGroupees = {};
+
             for (let i = 0; i < data.length; i++) {
+
+                let idCommande = data[i].id_commande;
+
+                if (commandesGroupees[idCommande] === undefined) {
+
+                    commandesGroupees[idCommande] = {
+                        date: data[i].date_commande,
+                        produits: []
+                    };
+                }
+
+                commandesGroupees[idCommande].produits.push({
+                    nom: data[i].nom,
+                    quantite: data[i].quantite,
+                    prix: data[i].prix
+                });
+            }
+
+
+            // Afficher chaque commande
+            for (let idCommande in commandesGroupees) {
+
+                let commande = commandesGroupees[idCommande];
+                let dateCommande = new Date(commande.date);
+
+                let dateFormatee = dateCommande.toLocaleString("fr-FR", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit"
+                });
+                let htmlProduits = "";
+                let totalCommande = 0;
+
+                for (let i = 0; i < commande.produits.length; i++) {
+
+                    totalCommande =
+                        totalCommande +
+                        commande.produits[i].prix *
+                        commande.produits[i].quantite;
+
+                    htmlProduits =
+                        htmlProduits +
+                        "<div class='ligne-commande-client'>" +
+                        commande.produits[i].nom +
+                        " × " +
+                        commande.produits[i].quantite +
+                        " — " +
+                        commande.produits[i].prix +
+                        " €" +
+                        "</div>";
+                }
 
                 zoneMesCommandesClient.innerHTML +=
                     "<div class='commande-client'>" +
-                    "<strong>Commande n°" + data[i].id_commande + "</strong>" +
-                    "<span>Date : " + data[i].date_commande + "</span>" +
-                    "<span>" + data[i].nom +
-                    " × " + data[i].quantite + "</span>" +
-                    "<span>Prix : " + data[i].prix + " €</span>" +
+
+                    "<strong>Commande n°" +
+                    idCommande +
+                    "</strong>" +
+
+                    "<span>Date : " +
+                    dateFormatee +
+                    "</span>" +
+
+                    htmlProduits +
+
+                    "<strong>Total : " +
+                    totalCommande.toFixed(2) +
+                    " €</strong>" +
+
                     "</div>";
             }
 
         });
 }
-
 chargerMesCommandes();
 
 // Clic sur Se connecter
 boutonConnexion.addEventListener("click", function () {
-
+    messageConnexion.textContent = "";
     let donnees = new FormData();
 
     donnees.append("email", connexionEmail.value);
@@ -173,7 +238,7 @@ boutonConnexion.addEventListener("click", function () {
     })
         .then(response => response.text())
         .then(data => {
-
+            console.log("MES COMMANDES CLIENT :", data);
             console.log("Réponse connexion :", data);
 
             if (data === "Connexion réussie") {
@@ -192,7 +257,7 @@ boutonConnexion.addEventListener("click", function () {
 
 // Clic sur Créer mon compte
 boutonInscription.addEventListener("click", function () {
-
+    messageInscription.textContent = "";
     // Vérifier que tous les champs sont remplis
     if (
         inscriptionNom.value.trim() === "" ||
@@ -204,12 +269,19 @@ boutonInscription.addEventListener("click", function () {
 
         return;
     }
-
-    // Vérifier la longueur du mot de passe
-    if (inscriptionMotDePasse.value.length < 6) {
+    // Vérifier le format de l'email
+    if (!inscriptionEmail.value.includes("@")) {
 
         messageInscription.textContent =
-            "Le mot de passe doit contenir au moins 6 caractères.";
+            "Adresse email invalide.";
+
+        return;
+    }
+    // Vérifier la longueur du mot de passe
+    if (inscriptionMotDePasse.value.length < 8) {
+
+        messageInscription.textContent =
+            "Le mot de passe doit contenir au moins 8 caractères.";
 
         return;
     }
@@ -367,24 +439,56 @@ function recalculerTotal(produits) {
 //========================
 function afficherCatalogue(catalogue) {
 
-    //Vider le catalogue avant de le reconstruire
+    // Vider le catalogue avant de le reconstruire
     zoneCatalogue.innerHTML = "";
+
     // AFFICHAGE DES PRODUITS DU CATALOGUE
     for (let i = 0; i < catalogue.length; i++) {
 
+        // Préparer l'image uniquement si elle existe
+        let htmlImage = "";
+
+        if (catalogue[i].image !== null && catalogue[i].image !== "") {
+
+            htmlImage =
+                "<img class='image-produit' src='" +
+                catalogue[i].image +
+                "' alt='" +
+                catalogue[i].nom +
+                "'>";
+        }
+
         // Créer une carte HTML pour chaque produit
-        zoneCatalogue.innerHTML = zoneCatalogue.innerHTML + "<div class='produit-catalogue'>" +
-            "<img class='image-produit' src='" +
-            catalogue[i].image +
-            "' alt='" +
+        zoneCatalogue.innerHTML =
+            zoneCatalogue.innerHTML +
+            "<div class='produit-catalogue'>" +
+
+            htmlImage +
+
+            "<strong>" +
             catalogue[i].nom +
-            "'>" +
-            "<strong>" + catalogue[i].nom + "</strong>" +
-            "<span class='prix-produit'>Prix : " + catalogue[i].prix + "€</span>" +
-            "<span>Stock disponible : " + catalogue[i].stock + "</span>" +
-            "<button class='btn-modifier-catalogue' data-index='" + i + "'>Modifier</button>" +
-            "<button class='btn-supprimer-catalogue' data-index='" + i + "'>Supprimer</button>" +
-            "<button class='btn-ajouter-catalogue' data-index ='" + i + "'> Ajouter au panier</button>" +
+            "</strong>" +
+
+            "<span class='prix-produit'>Prix : " +
+            catalogue[i].prix +
+            "€</span>" +
+
+            "<span>Stock disponible : " +
+            catalogue[i].stock +
+            "</span>" +
+
+            "<button class='btn-modifier-catalogue' data-index='" +
+            i +
+            "'>Modifier</button>" +
+
+            "<button class='btn-supprimer-catalogue' data-index='" +
+            i +
+            "'>Supprimer</button>" +
+
+            "<button class='btn-ajouter-catalogue' data-index='" +
+            i +
+            "'>Ajouter au panier</button>" +
+
             "</div>";
     }
 
@@ -485,6 +589,7 @@ function afficherCatalogue(catalogue) {
     }
 
 }
+
 function afficherProduitsAdmin(catalogue) {
 
     let zoneAdmin = document.getElementById("listeProduitsAdmin");

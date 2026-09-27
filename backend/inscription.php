@@ -24,8 +24,8 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 }
 
 // Vérifier la longueur du mot de passe
-if (strlen($motDePasse) < 6) {
-    echo "Le mot de passe doit contenir au moins 6 caractères.";
+if (strlen($motDePasse) < 8) {
+    echo "Le mot de passe doit contenir au moins 8 caractères.";
     exit;
 }
 

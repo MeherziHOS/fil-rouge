@@ -4,6 +4,8 @@ session_start();
 
 require_once "connexion.php";
 
+header("Content-Type: application/json");
+
 // Récupérer le JSON envoyé par JavaScript
 $json = file_get_contents("php://input");
 
@@ -25,33 +27,7 @@ if (
     exit;
 }
 
-// Vérifier le stock réel dans MariaDB
-foreach ($commande["produits"] as $produit) {
 
-    $requeteStock = $connexion->prepare(
-        "SELECT stock
-         FROM produit
-         WHERE id_produit = :id_produit"
-    );
-
-    $requeteStock->execute([
-        "id_produit" => $produit["id_produit"]
-    ]);
-
-    $produitBase = $requeteStock->fetch(PDO::FETCH_ASSOC);
-
-    if (
-        !$produitBase ||
-        $produit["quantite"] > $produitBase["stock"]
-    ) {
-        echo json_encode([
-            "success" => false,
-            "message" => "Stock insuffisant pour un produit."
-        ]);
-
-        exit;
-    }
-}
 // Vérifier qu'un client est connecté
 if (!isset($_SESSION["id_client"])) {
 
@@ -66,57 +42,119 @@ if (!isset($_SESSION["id_client"])) {
 $idClient = $_SESSION["id_client"];
 
 
-// Créer une nouvelle commande dans MariaDB
-$requete = $connexion->prepare(
-    "INSERT INTO commande (date_commande, id_client)
-     VALUES (NOW(), :id_client)"
+try {
+
+    // Commencer la transaction
+    $connexion->beginTransaction();
+
+
+    // Vérifier le stock réel
+    foreach ($commande["produits"] as $produit) {
+
+        $requeteStock = $connexion->prepare(
+            "SELECT prix, stock
+            FROM produit
+            WHERE id_produit = :id_produit
+            FOR UPDATE"
+        );
+
+        $requeteStock->execute([
+            "id_produit" => $produit["id_produit"]
+        ]);
+
+        $produitBase = $requeteStock->fetch(PDO::FETCH_ASSOC);
+        $produit["prix"] = $produitBase["prix"];
+
+        if (
+            !$produitBase ||
+            $produit["quantite"] <= 0 ||
+            $produit["quantite"] > $produitBase["stock"]
+        ) {
+            throw new Exception(
+                "Stock insuffisant pour un produit."
+            );
+        }
+    }
+
+
+    // Créer la commande
+    $requeteCommande = $connexion->prepare(
+        "INSERT INTO commande
+        (date_commande, id_client)
+        VALUES
+        (NOW(), :id_client)"
+    );
+
+    $requeteCommande->execute([
+        "id_client" => $idClient
+    ]);
+
+    $idCommande = $connexion->lastInsertId();
+
+
+    // Enregistrer les produits
+    foreach ($commande["produits"] as $produit) {
+// Récupérer le vrai prix depuis MariaDB
+$requetePrix = $connexion->prepare(
+    "SELECT prix
+     FROM produit
+     WHERE id_produit = :id_produit"
 );
 
-$requete->execute([
-    "id_client" => $idClient
+$requetePrix->execute([
+    "id_produit" => $produit["id_produit"]
 ]);
 
+$produitBase = $requetePrix->fetch(PDO::FETCH_ASSOC);
+        $requeteLigne = $connexion->prepare(
+            "INSERT INTO ligne_commande
+            (id_commande, id_produit, quantite, prix)
+            VALUES
+            (:id_commande, :id_produit, :quantite, :prix)"
+        );
 
-// Récupérer l'identifiant de la nouvelle commande
-$idCommande = $connexion->lastInsertId();
+        $requeteLigne->execute([
+            "id_commande" => $idCommande,
+            "id_produit" => $produit["id_produit"],
+            "quantite" => $produit["quantite"],
+            "prix" => $produitBase["prix"]
+        ]);
 
 
-// Enregistrer les produits de la commande
-foreach ($commande["produits"] as $produit) {
+        // Diminuer le stock
+        $requeteStock = $connexion->prepare(
+            "UPDATE produit
+             SET stock = stock - :quantite
+             WHERE id_produit = :id_produit"
+        );
 
-    $requeteLigne = $connexion->prepare(
-        "INSERT INTO ligne_commande
-        (id_commande, id_produit, quantite, prix)
-        VALUES
-        (:id_commande, :id_produit, :quantite, :prix)"
-    );
+        $requeteStock->execute([
+            "quantite" => $produit["quantite"],
+            "id_produit" => $produit["id_produit"]
+        ]);
+    }
 
-    $requeteLigne->execute([
-        "id_commande" => $idCommande,
-        "id_produit" => $produit["id_produit"],
-        "quantite" => $produit["quantite"],
-        "prix" => $produit["prix"]
+
+    // Tout s'est bien passé
+    $connexion->commit();
+
+    echo json_encode([
+        "success" => true,
+        "id_commande" => $idCommande
     ]);
 
 
-    // Diminuer réellement le stock dans MariaDB
-    $requeteStock = $connexion->prepare(
-        "UPDATE produit
-         SET stock = stock - :quantite
-         WHERE id_produit = :id_produit"
-    );
+} catch (Throwable $erreur) {
 
-    $requeteStock->execute([
-        "quantite" => $produit["quantite"],
-        "id_produit" => $produit["id_produit"]
+    // Une erreur : annuler toute la commande
+    if ($connexion->inTransaction()) {
+        $connexion->rollBack();
+    }
+
+    echo json_encode([
+        "success" => false,
+        "message" => $erreur->getMessage()
     ]);
 }
-
-
-// Réponse envoyée à JavaScript
-echo json_encode([
-    "success" => true,
-    "id_commande" => $idCommande
-]);
 
 ?>

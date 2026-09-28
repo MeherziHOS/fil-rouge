@@ -1,0 +1,16 @@
+{
+  "name": "module_1",
+  "version": "1.0.0",
+  "description": "Fil Rouge est une application web e-commerce de vente de matériel informatique.",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "vitest": "^5.0.2"
+  }
+}

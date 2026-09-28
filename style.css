@@ -62,6 +62,53 @@ button:hover,
     cursor: pointer;
 }
 
+/* Avantages en bas de la Hero */
+.hero-avantages {
+    width: 100%;
+    max-width: 1000px;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.avantage {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+
+    padding: 10px 25px;
+    text-align: left;
+}
+
+.avantage-texte {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.avantage:not(:last-child) {
+    border-right: 1px solid var(--gris);
+}
+
+.avantage strong {
+    color: var(--blanc);
+    font-size: 16px;
+}
+
+.avantage span {
+    color: var(--gris-clair);
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 1.4;
+}
+
 .btn-ajouter-catalogue:hover,
 #btnValiderCommande:hover,
 #btnAjouter:hover,
@@ -149,90 +196,162 @@ input {
     margin: 6px 0;
 }
 
-.header {
-    width: 100%;
-    background: var(--noir);
+/* =========================
+   HEADER PRINCIPAL
+   ========================= */
+
+.header-principal {
+    min-height: 110px;
+    padding: 20px 6%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+
+    background: #111518;
+    color: var(--blanc);
 }
 
-.identite-site {
-    text-align: center;
-    padding: 28px 20px 22px;
+
+/* LOGO */
+
+.logo-site {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    color: var(--blanc);
+    text-decoration: none;
 }
 
-.identite-site h1 {
-    margin: 0;
-
-    font-size: 42px;
-    font-weight: 900;
-
-    letter-spacing: 6px;
-
-    background: linear-gradient(135deg,
-            #050505 0%,
-            #4b0b0b 25%,
-            #d12a2a 50%,
-            #650d0d 70%,
-            #111 100%);
-
-    -webkit-background-clip: text;
-    background-clip: text;
-
-    color: transparent;
-
-    text-shadow:
-        0 2px 3px rgba(0, 0, 0, 0.35);
+.logo-ecran {
+    color: var(--rouge);
 }
 
-.identite-site p {
-    margin: 0;
-    color: var(--gris-clair);
-    font-size: 13px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
+.logo-texte {
+    display: flex;
+    flex-direction: column;
 }
 
-.navbar {
-    width: 100%;
+.logo-texte strong {
+    font-size: 28px;
+    line-height: 1;
+}
+
+.logo-texte strong span:first-child {
+    color: var(--blanc);
+}
+
+.logo-rouge {
+    color: var(--rouge);
+}
+
+.logo-texte small {
+    margin-top: 6px;
+
+    font-size: 9px;
+    letter-spacing: 5px;
+    color: var(--blanc);
+}
+
+
+/* NAVIGATION */
+
+.navigation-principale {
+    display: flex;
+    align-items: center;
+    gap: 45px;
+}
+
+.navigation-principale a {
+    position: relative;
+
+    color: var(--blanc);
+    text-decoration: none;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    padding: 10px 0;
+}
+
+.navigation-principale a:hover,
+.navigation-principale .nav-active {
+    color: var(--rouge);
+}
+
+.navigation-principale .nav-active::after {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 2px;
+
+    background: var(--rouge);
+}
+
+
+/* ICONES À DROITE */
+
+.actions-header {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.icone-header {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--blanc);
+    text-decoration: none;
+}
+
+.icone-header:hover {
+    color: var(--rouge);
+}
+
+
+/* PETIT 0 DU PANIER */
+
+.badge-panier {
+    position: absolute;
+
+    top: -9px;
+    right: -10px;
+
+    min-width: 19px;
+    height: 19px;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
-    gap: 45px;
+    border-radius: 50%;
 
-    padding: 16px 20px;
+    background: var(--rouge);
+    color: var(--blanc);
 
-    background: var(--gris-fonce);
-
-    border-top: 1px solid var(--gris);
-    border-bottom: 2px solid var(--rouge-fonce);
+    font-size: 11px;
+    font-weight: bold;
 }
 
-.navbar a {
-    color: var(--gris-clair);
-
-    text-decoration: none;
-
-    font-size: 14px;
-    font-weight: 600;
-
-    text-transform: uppercase;
-    letter-spacing: 1px;
-
-    transition: 0.2s;
-}
-
-.navbar a:hover {
-    color: var(--rouge);
-}
 
 /* =========================
    BANDEAU D'ACCUEIL
    ========================= */
 
 .hero {
+    position: relative;
     width: 100%;
-    min-height: 420px;
+    min-height: 520px;
 
     display: flex;
     justify-content: center;
@@ -241,25 +360,33 @@ input {
     text-align: center;
 
     background:
-        linear-gradient(rgba(0, 0, 0, 0.82),
-            rgba(0, 0, 0, 0.82)),
-        linear-gradient(135deg,
-            #111,
-            #2a0a0a,
-            #111);
+        linear-gradient(rgba(0, 0, 0, 0.05),
+            rgba(0, 0, 0, 0.05)),
+        url("images/hero_fil_rouge.png");
 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     padding: 60px 20px;
 }
 
+.hero-rouge {
+    color: var(--rouge);
+    display: block;
+}
+
 .hero-contenu {
+    position: relative;
+    top: -50px;
     max-width: 750px;
 }
 
 .hero-surtitre {
-    color: var(--rouge);
-    font-weight: bold;
-    letter-spacing: 3px;
+    color: var(--blanc);
+    font-weight: 400;
+    letter-spacing: 5px;
     font-size: 13px;
+    text-transform: uppercase;
 }
 
 .hero h2 {
@@ -293,10 +420,32 @@ input {
     font-weight: bold;
 
     border-radius: 4px;
+
+    position: relative;
+    top: -10px;
 }
 
 .btn-hero:hover {
     background: var(--rouge);
+}
+
+/* Avantages en bas de la Hero */
+.hero-avantages {
+    width: 100%;
+    max-width: 1000px;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.icone-avantage {
+    color: var(--rouge);
+    flex-shrink: 0;
 }
 
 .section-produits {
@@ -1074,4 +1223,71 @@ input {
 #clientConnecte {
     margin-top: 25px;
     margin-bottom: 25px;
+}
+
+/* =========================================
+   NAVIGATION FLOTTANTE
+========================================= */
+
+.navigation-flottante {
+    position: fixed;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    background-color: var(--gris-fonce);
+    padding: 10px 7px;
+    border-radius: 12px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+
+    z-index: 1000;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition: opacity 0.3s ease;
+}
+
+.navigation-flottante.visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.navigation-flottante a {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--blanc);
+    text-decoration: none;
+    font-size: 20px;
+
+    border-radius: 8px;
+    transition: 0.2s;
+}
+
+.navigation-flottante a:hover {
+    background-color: var(--rouge);
+    transform: scale(1.08);
+}
+
+.navigation-flottante svg {
+    width: 22px;
+    height: 22px;
+
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }

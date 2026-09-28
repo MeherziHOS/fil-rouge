@@ -9,43 +9,184 @@
 </head>
 
 <body>
-    <header class="header">
-        <div class="identite-site">
-            <h1>Fil Rouge</h1>
-            <p>Matériel informatique</p>
-        </div>
+    <header class="header-principal">
 
-        <nav class="navbar">
+        <a href="#accueil" class="logo-site">
+            <svg class="logo-ecran" xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none"
+                stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16">
+                <rect x="1.5" y="2.5" width="13" height="9" rx="1"></rect>
+                <path d="M5 14h6M6.5 11.5 6 14M9.5 11.5 10 14"></path>
+            </svg>
 
-            <a href="#accueil">Accueil</a>
+            <div class="logo-texte">
+                <strong>
+                    <span>Fil</span>
+                    <span class="logo-rouge">Rouge</span>
+                </strong>
+                <small>INFORMATIQUE</small>
+            </div>
+        </a>
+
+
+        <nav class="navigation-principale">
+
+            <a href="#accueil" class="nav-active">Accueil</a>
             <a href="#produits">Produits</a>
+            <a href="#produits">Promotions</a>
+            <a href="#contact">À propos</a>
             <a href="#contact">Contact</a>
-            <a href="#compte">Mon compte</a>
-            <a href="#panier">Panier</a>
 
         </nav>
+
+
+        <div class="actions-header">
+
+            <!-- Recherche -->
+            <a href="#produits" class="icone-header" aria-label="Rechercher">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="none" stroke="currentColor"
+                    stroke-width="1.5" viewBox="0 0 16 16">
+                    <circle cx="7" cy="7" r="4.5"></circle>
+                    <path d="m10.5 10.5 4 4"></path>
+                </svg>
+            </a>
+
+            <!-- Compte -->
+            <a href="#compte" class="icone-header" aria-label="Mon compte">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="none" stroke="currentColor"
+                    stroke-width="1.5" viewBox="0 0 16 16">
+                    <circle cx="8" cy="5" r="3"></circle>
+                    <path d="M2.5 15v-1.5a5.5 5.5 0 0 1 11 0V15"></path>
+                </svg>
+            </a>
+
+            <!-- Panier -->
+            <a href="#panier-section" class="icone-header panier-header" aria-label="Panier">
+
+                <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" fill="none" stroke="currentColor"
+                    stroke-width="1.5" viewBox="0 0 16 16">
+                    <path d="M1 2h2l1.5 8h8l1.5-6H4"></path>
+                    <circle cx="6" cy="13" r="1"></circle>
+                    <circle cx="12" cy="13" r="1"></circle>
+                </svg>
+
+                <span class="badge-panier">0</span>
+
+            </a>
+
+        </div>
+
     </header>
+    <nav class="navigation-flottante">
+
+        <!-- Accueil -->
+        <a href="#accueil" title="Accueil" aria-label="Accueil">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M3 11L12 3L21 11V21H15V15H9V21H3V11Z"></path>
+            </svg>
+        </a>
+
+        <!-- Produits -->
+        <a href="#produits" title="Produits" aria-label="Produits">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="3" y="4" width="18" height="13" rx="1"></rect>
+                <path d="M8 21H16M12 17V21"></path>
+            </svg>
+        </a>
+
+        <!-- Panier -->
+        <a href="#panier" title="Panier" aria-label="Panier">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M3 4H5L7 16H18L21 8H6"></path>
+                <circle cx="9" cy="20" r="1"></circle>
+                <circle cx="17" cy="20" r="1"></circle>
+            </svg>
+        </a>
+
+        <!-- Contact -->
+        <a href="#contact" title="Contact" aria-label="Contact">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                    d="M5 4H9L11 9L8.5 10.5C9.7 13 11 14.3 13.5 15.5L15 13L20 15V19C20 20.1 19.1 21 18 21C10.3 20.5 3.5 13.7 3 6C3 4.9 3.9 4 5 4Z">
+                </path>
+            </svg>
+        </a>
+
+        <!-- Mon compte -->
+        <a href="#compte" title="Mon compte" aria-label="Mon compte">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="8" r="4"></circle>
+                <path d="M4 21C4 16.6 7.6 13 12 13C16.4 13 20 16.6 20 21"></path>
+            </svg>
+        </a>
+
+    </nav>
     <section id="accueil" class="hero">
 
         <div class="hero-contenu">
 
             <p class="hero-surtitre">
-                INFORMATIQUE • GAMING • ACCESSOIRES
+                MATÉRIEL INFORMATIQUE
             </p>
 
-            <h2>ÉQUIPEZ-VOUS AUTREMENT.</h2>
+            <h2>ÉQUIPEZ-VOUS <span class="hero-rouge"> AUTREMENT</span></h2>
 
             <p class="hero-description">
-                Découvrez notre sélection de matériel informatique
-                pour travailler, jouer et créer.
+                Performance • Fiabilité • Accessibilité
             </p>
 
             <a href="#produits" class="btn-hero">
-                Voir les produits
+                Découvrir nos produits →
             </a>
 
         </div>
+        <div class="hero-avantages">
 
+            <div class="avantage">
+                <svg class="icone-avantage" xmlns="http://www.w3.org/2000/svg" width="34" height="34" fill="none"
+                    stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16">
+                    <path d="M1 3.5h9v7H1z" />
+                    <path d="M10 6h2.5L15 8.5v2h-1" />
+                    <circle cx="4" cy="11.5" r="1.5" />
+                    <circle cx="12.5" cy="11.5" r="1.5" />
+                </svg>
+
+                <div class="avantage-texte">
+                    <strong>Livraison rapide</strong>
+                    <span>Partout en France</span>
+                </div>
+            </div>
+
+
+            <div class="avantage">
+                <svg class="icone-avantage" xmlns="http://www.w3.org/2000/svg" width="34" height="34" fill="none"
+                    stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16">
+                    <path d="M8 1.5 13 3.5v3.8c0 3.2-2.1 5.7-5 7.2-2.9-1.5-5-4-5-7.2V3.5z" />
+                    <path d="m5.5 7.8 1.6 1.6 3.4-3.4" />
+                </svg>
+
+                <div class="avantage-texte">
+                    <strong>Paiement sécurisé</strong>
+                    <span>100 % sécurisé</span>
+                </div>
+            </div>
+
+
+            <div class="avantage">
+                <svg class="icone-avantage" xmlns="http://www.w3.org/2000/svg" width="34" height="34" fill="none"
+                    stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16">
+                    <path d="M2 9V7a6 6 0 0 1 12 0v2" />
+                    <path d="M2 8.5h2v4H2.5A1.5 1.5 0 0 1 1 11V10a1.5 1.5 0 0 1 1-1.5z" />
+                    <path d="M14 8.5h-2v4h1.5A1.5 1.5 0 0 0 15 11V10a1.5 1.5 0 0 0-1-1.5z" />
+                    <path d="M12 12.5c0 1-1 1.5-2.5 1.5H8" />
+                </svg>
+
+                <div class="avantage-texte">
+                    <strong>Support réactif</strong>
+                    <span>Une équipe à votre écoute</span>
+                </div>
+            </div>
+
+        </div>
     </section>
 
     <section id="produits" class="section-produits">

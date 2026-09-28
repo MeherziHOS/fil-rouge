@@ -1053,3 +1053,23 @@ boutonValiderCommande.addEventListener("click", function () {
 
         });
 });
+
+// ==========================================
+// NAVIGATION FLOTTANTE AU DÉFILEMENT
+// ==========================================
+
+let navigationPrincipale = document.querySelector(".header-principal");
+let navigationFlottante = document.querySelector(".navigation-flottante");
+
+window.addEventListener("scroll", function () {
+
+    let positionNavbar = navigationPrincipale.getBoundingClientRect();
+
+    // Si la navigation principale est sortie de l'écran
+    if (positionNavbar.bottom < 0) {
+        navigationFlottante.classList.add("visible");
+    } else {
+        navigationFlottante.classList.remove("visible");
+    }
+
+});

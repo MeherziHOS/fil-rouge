@@ -63,7 +63,6 @@ try {
         ]);
 
         $produitBase = $requeteStock->fetch(PDO::FETCH_ASSOC);
-        $produit["prix"] = $produitBase["prix"];
 
         if (
             !$produitBase ||

@@ -41,7 +41,6 @@ $_SESSION["nom_client"] = $client["nom"];
 $_SESSION["role"] = $client["role"];
 
 echo "Connexion réussie";
-    //echo "Connexion réussie";
 
 } else {
 

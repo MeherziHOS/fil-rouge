@@ -1,10 +1,13 @@
 <?php
 
-// Informations nécessaires pour se connecter à la base de données
-$serveur = "localhost";//où se trouve MariaDB
-$utilisateur = "root";//utilisateur de la base
-$motDePasse = "";
-$baseDeDonnees = "fil_rouge";//base que nous voulons utiliser
+// Lire le fichier .env
+$env = parse_ini_file(__DIR__ . "/../.env");
+
+// Informations de connexion à la base de données
+$serveur = $env["DB_HOST"];
+$baseDeDonnees = $env["DB_NAME"];
+$utilisateur = $env["DB_USER"];
+$motDePasse = $env["DB_PASSWORD"];
 
 try {//PHP essaie de se connecter
 

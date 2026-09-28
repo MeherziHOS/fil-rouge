@@ -77,4 +77,21 @@ describe("Classe Produit", () => {
         expect(produit.quantite).toBe(1);
         expect(produit.resultat).toBe(9.99);
     });
+
+    test("initialise correctement un produit", () => {
+
+        let produit = new Produit(
+            1,
+            "Souris",
+            9.99,
+            40,
+            2
+        );
+
+        expect(produit.id_produit).toBe(1);
+        expect(produit.nom).toBe("Souris");
+        expect(produit.prix).toBe(9.99);
+        expect(produit.stock).toBe(40);
+        expect(produit.quantite).toBe(2);
+    });
 });

@@ -957,9 +957,34 @@ input {
 
 @media (max-width: 900px) {
 
-    .navbar {
+    .header-principal {
+        width: 100%;
+        padding: 15px 25px;
         gap: 20px;
+    }
+
+    .logo-site {
+        flex-shrink: 0;
+    }
+
+    .navigation-principale {
+        gap: 18px;
         flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .navigation-principale a {
+        font-size: 12px;
+    }
+
+    .actions-header {
+        flex-shrink: 0;
+        gap: 15px;
+    }
+
+    .icone-header svg {
+        width: 21px;
+        height: 21px;
     }
 
     #catalogue {
@@ -993,53 +1018,48 @@ input {
 
 @media (max-width: 600px) {
 
-    .identite-site h1 {
-        font-size: 28px;
-        letter-spacing: 3px;
-    }
-
-    .navbar {
-        flex-direction: column;
-        gap: 12px;
-    }
-
-    .navbar a {
-        font-size: 14px;
-        padding: 5px 0;
-    }
-
-    header {
-        padding: 15px 20px;
-    }
-
-    .identite-site {
-        text-align: center;
-    }
-
     .hero {
-        min-height: 360px;
-        padding: 45px 25px;
+        width: 100%;
+        min-height: 480px;
+        padding: 40px 15px 25px;
+
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+
+        background-position: center;
     }
 
     .hero-contenu {
+        width: 100%;
         max-width: 100%;
+
+        top: 0;
+        padding: 0 10px;
     }
 
     .hero-surtitre {
-        font-size: 11px;
+        font-size: 9px;
         letter-spacing: 2px;
     }
 
     .hero h2 {
         font-size: 30px;
-        line-height: 1.15;
-        letter-spacing: 2px;
+        line-height: 1.1;
+        letter-spacing: 1px;
+        margin: 12px 0;
     }
 
     .hero-description {
-        font-size: 15px;
-        line-height: 1.6;
-        margin-bottom: 25px;
+        font-size: 13px;
+        line-height: 1.4;
+        margin-bottom: 22px;
+    }
+
+    .btn-hero {
+        font-size: 11px;
+        padding: 12px 18px;
+        top: 0;
     }
 
     #catalogue {
@@ -1095,6 +1115,88 @@ input {
         width: 100%;
         max-width: 100%;
         box-sizing: border-box;
+    }
+
+    /* Nouveau header - mobile */
+    .header-principal {
+        width: 100%;
+        min-height: auto;
+        padding: 12px 15px;
+
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .logo-site {
+        justify-content: center;
+    }
+
+    .logo-ecran {
+        width: 32px;
+        height: 32px;
+    }
+
+    .logo-texte strong {
+        font-size: 20px;
+    }
+
+    .logo-texte small {
+        font-size: 7px;
+        letter-spacing: 3px;
+    }
+
+    .navigation-principale {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 8px 18px;
+    }
+
+    .navigation-principale a {
+        font-size: 11px;
+        padding: 5px 0;
+    }
+
+    .actions-header {
+        gap: 20px;
+    }
+
+    .icone-header svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .hero-avantages {
+        width: calc(100% - 30px);
+        max-width: none;
+
+        grid-template-columns: 1fr;
+        gap: 0;
+
+        bottom: 20px;
+    }
+
+    .avantage {
+        justify-content: flex-start;
+        padding: 10px 15px;
+    }
+
+    .avantage:not(:last-child) {
+        border-right: none;
+        border-bottom: 1px solid var(--gris);
+    }
+
+    .icone-avantage {
+        width: 28px;
+        height: 28px;
+    }
+
+    .avantage strong {
+        font-size: 14px;
+    }
+
+    .avantage span {
+        font-size: 11px;
     }
 }
 

@@ -58,6 +58,8 @@ let zoneTotalAPayer = document.getElementById("totalAPayer");
 
 // Catalogue
 let zoneCatalogue = document.getElementById("catalogue");
+let rechercheProduit = document.getElementById("rechercheProduit");
+let boutonRecherche = document.getElementById("btnRecherche");
 
 // Message affiché après validation d'une commande
 let zoneMessageCommande = document.getElementById("messageCommande");
@@ -375,7 +377,49 @@ function chargerHistoriqueCommandes() {
 
 chargerHistoriqueCommandes();
 
+// RECHERCHER UN PRODUIT
+rechercheProduit.addEventListener("input", function () {
 
+    // Récupérer le texte écrit par l'utilisateur
+    let texteRecherche = rechercheProduit.value.toLowerCase();
+
+    // Tableau qui contiendra les produits trouvés
+    let produitsFiltres = [];
+
+    // Parcourir le catalogue
+    for (let i = 0; i < catalogue.length; i++) {
+
+        // Récupérer le nom du produit en minuscules
+        let nomProduit = catalogue[i].nom.toLowerCase();
+
+        // Vérifier si le nom contient le texte recherché
+        if (nomProduit.includes(texteRecherche)) {
+
+            produitsFiltres.push(catalogue[i]);
+        }
+    }
+
+    // Afficher uniquement les produits trouvés
+    afficherCatalogue(produitsFiltres);
+});
+// CLIC SUR LA LOUPE DU HEADER
+boutonRecherche.addEventListener("click", function (event) {
+
+    // Empêcher le comportement automatique du lien
+    event.preventDefault();
+
+    // Aller jusqu'à la barre de recherche
+    rechercheProduit.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
+
+    // Placer le curseur dans le champ
+    rechercheProduit.focus({
+        preventScroll: true
+    });
+
+});
 //======================
 //3. Fonctions de calcul
 //======================

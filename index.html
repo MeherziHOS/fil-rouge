@@ -42,7 +42,7 @@
         <div class="actions-header">
 
             <!-- Recherche -->
-            <a href="#produits" class="icone-header" aria-label="Rechercher">
+            <a href="#produits" class="icone-header" id="btnRecherche" aria-label="Rechercher">
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="none" stroke="currentColor"
                     stroke-width="1.5" viewBox="0 0 16 16">
                     <circle cx="7" cy="7" r="4.5"></circle>
@@ -191,6 +191,13 @@
 
     <section id="produits" class="section-produits">
         <h2>Nos produits</h2>
+
+        <div class="recherche-produits">
+
+            <input type="text" id="rechercheProduit" placeholder="Rechercher un produit..."
+                aria-label="Rechercher un produit">
+
+        </div>
         <div id="catalogue"></div>
     </section>
 

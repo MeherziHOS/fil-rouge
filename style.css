@@ -448,6 +448,34 @@ input {
     flex-shrink: 0;
 }
 
+/* =========================
+   RECHERCHE PRODUITS
+   ========================= */
+
+.recherche-produits {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto 35px;
+}
+
+.recherche-produits input {
+    width: 100%;
+    padding: 14px 18px;
+
+    background-color: var(--blanc);
+    color: var(--noir);
+
+    border: 1px solid var(--gris);
+    border-radius: 6px;
+
+    font-size: 15px;
+    outline: none;
+}
+
+.recherche-produits input:focus {
+    border-color: var(--rouge);
+}
+
 .section-produits {
     background-color: var(--gris-clair);
     padding: 70px 5%;

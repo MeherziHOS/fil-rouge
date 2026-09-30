@@ -52,6 +52,7 @@ let boutonValiderCommande = document.getElementById("btnValiderCommande");
 
 // Zones d'affichage du panier
 let zonePanier = document.getElementById("panier");
+let badgePanier = document.getElementById("badgePanier");
 let zoneTotal = document.getElementById("totalPanier");
 let zoneReduction = document.getElementById("reductionPanier");
 let zoneTotalAPayer = document.getElementById("totalAPayer");
@@ -616,7 +617,7 @@ function afficherCatalogue(catalogue) {
             champStock.value = produitAModifier.stock;
             categorieProduit.value = produitAModifier.categorie;
 
-            
+
         });
     }
 
@@ -930,6 +931,14 @@ function mettreAjourTotaux(produits) {
     // 4. AFFICHER LES RÉSULTATS
     zoneReduction.textContent = " Réduction : " + reduction + "€";
     zoneTotalAPayer.textContent = "À payer : " + totalAPayer + "€";
+    // 5. METTRE À JOUR LE COMPTEUR DU PANIER
+    let quantiteTotale = 0;
+
+    for (let i = 0; i < produits.length; i++) {
+        quantiteTotale = quantiteTotale + produits[i].quantite;
+    }
+
+    badgePanier.textContent = quantiteTotale;
 }
 
 
@@ -1090,12 +1099,19 @@ boutonValiderCommande.addEventListener("click", function () {
 
     // Préparer les données de la commande pour PHP
     let donneesCommande = {
-        produits: commande.produits,
+        produits: commande.produits.map(function (produit) {
+            return {
+                id_produit: produit.id_produit,
+                nom: produit.nom,
+                prix: produit.prix,
+                stock: produit.stock,
+                quantite: produit.quantite
+            };
+        }),
         total: commande.total,
         reduction: commande.reduction,
         montantAPayer: commande.montantAPayer
     };
-
     // Envoyer la commande au back-end
     fetch("backend/valider_commande.php", {
         method: "POST",

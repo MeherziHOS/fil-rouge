@@ -2,7 +2,9 @@ CREATE TABLE produit (
     id_produit INT PRIMARY KEY AUTO_INCREMENT,
     nom VARCHAR(100),
     prix DECIMAL(10,2),
-    stock INTVARCHAR(255)
+    stock INTEGER,
+    image VARCHAR(255),
+    categorie VARCHAR(50)
 );
 
 CREATE TABLE client (

@@ -198,6 +198,30 @@
                 aria-label="Rechercher un produit">
 
         </div>
+
+        <div class="filtres-produits">
+
+            <button class="filtre-produit" data-categorie="tous">
+                Tous
+            </button>
+
+            <button class="filtre-produit" data-categorie="clavier">
+                Claviers
+            </button>
+
+            <button class="filtre-produit" data-categorie="ecran">
+                Écrans
+            </button>
+
+            <button class="filtre-produit" data-categorie="souris">
+                Souris
+            </button>
+
+            <button class="filtre-produit" data-categorie="accessoire">
+                Accessoires
+            </button>
+
+        </div>
         <div id="catalogue"></div>
     </section>
 
@@ -396,6 +420,16 @@
 
                 <label for="stockProduit">Stock :</label>
                 <input type="number" id="stockProduit">
+
+                <label for="categorieProduit">Catégorie :</label>
+
+                <select id="categorieProduit">
+                    <option value="">Choisir une catégorie</option>
+                    <option value="clavier">Clavier</option>
+                    <option value="ecran">Écran</option>
+                    <option value="souris">Souris</option>
+                    <option value="accessoire">Accessoire</option>
+                </select>
 
                 <p id="messageErreur"></p>
 

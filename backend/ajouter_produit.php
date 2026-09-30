@@ -7,6 +7,7 @@ require_once "connexion.php";
 $nom = $_POST["nom"];
 $prix = $_POST["prix"];
 $stock = $_POST["stock"];
+$categorie = $_POST["categorie"];
 
 // Vérifier que les données sont présentes
 if (
@@ -14,7 +15,8 @@ if (
     $prix === null ||
     $prix <= 0 ||
     $stock === null ||
-    $stock < 0
+    $stock < 0 ||
+    empty($categorie)
 ) {
     echo json_encode([
         "success" => false,
@@ -25,15 +27,16 @@ if (
 }
 // Préparer l'ajout du produit dans la base
 $requete = $connexion->prepare(
-    "INSERT INTO produit (nom, prix, stock)
-     VALUES (:nom, :prix, :stock)"
+    "INSERT INTO produit (nom, prix, stock, categorie)
+     VALUES (:nom, :prix, :stock, :categorie)"
 );
 
 // Exécuter la requête avec les valeurs reçues
 $requete->execute([
     "nom" => $nom,
     "prix" => $prix,
-    "stock" => $stock
+    "stock" => $stock,
+    "categorie" => $categorie
 ]);
 
 

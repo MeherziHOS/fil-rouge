@@ -476,6 +476,41 @@ input {
     border-color: var(--rouge);
 }
 
+/* =========================
+   FILTRES PRODUITS
+   ========================= */
+
+.filtres-produits {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    margin: -15px auto 35px;
+}
+
+.filtre-produit {
+    background-color: var(--blanc);
+    color: var(--gris-fonce);
+
+    border: 1px solid var(--gris);
+    border-radius: 20px;
+
+    padding: 8px 18px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.filtre-produit:hover {
+    background-color: var(--rouge);
+    color: var(--blanc);
+    border-color: var(--rouge);
+}
+
 .section-produits {
     background-color: var(--gris-clair);
     padding: 70px 5%;

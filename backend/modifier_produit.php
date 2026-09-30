@@ -8,13 +8,15 @@ $id = $_POST["id"];
 $nom = $_POST["nom"];
 $prix = $_POST["prix"];
 $stock = $_POST["stock"];
+$categorie = $_POST["categorie"];
 // Vérifier que les données sont valides
 if (
     empty(trim($nom)) ||
     $prix === null ||
     $prix <= 0 ||
     $stock === null ||
-    $stock < 0
+    $stock < 0||
+    empty($categorie)
 ) {
     echo json_encode([
         "success" => false,
@@ -26,7 +28,10 @@ if (
 // Préparer la modification du produit
 $requete = $connexion->prepare(
     "UPDATE produit
-     SET nom = :nom, prix = :prix, stock = :stock
+     SET nom = :nom,
+         prix = :prix,
+         stock = :stock,
+         categorie = :categorie
      WHERE id_produit = :id"
 );
 
@@ -35,6 +40,7 @@ $requete->execute([
     "nom" => $nom,
     "prix" => $prix,
     "stock" => $stock,
+    "categorie" => $categorie,
     "id" => $id
 ]);
 

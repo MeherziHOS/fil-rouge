@@ -60,6 +60,7 @@ let zoneTotalAPayer = document.getElementById("totalAPayer");
 let zoneCatalogue = document.getElementById("catalogue");
 let rechercheProduit = document.getElementById("rechercheProduit");
 let boutonRecherche = document.getElementById("btnRecherche");
+let boutonsFiltres = document.querySelectorAll(".filtre-produit");
 
 // Message affiché après validation d'une commande
 let zoneMessageCommande = document.getElementById("messageCommande");
@@ -88,6 +89,7 @@ let messageConnexion = document.getElementById("messageConnexion");
 let formulairesCompte = document.getElementById("formulairesCompte");
 
 let sectionAdmin = document.getElementById("sectionAdmin");
+let categorieProduit = document.getElementById("categorieProduit");
 
 sectionAdmin.style.display = "none";
 
@@ -420,6 +422,38 @@ boutonRecherche.addEventListener("click", function (event) {
     });
 
 });
+
+// FILTRER LES PRODUITS PAR CATÉGORIE
+for (let i = 0; i < boutonsFiltres.length; i++) {
+
+    boutonsFiltres[i].addEventListener("click", function () {
+
+        let categorie = boutonsFiltres[i].dataset.categorie;
+
+        // Si l'utilisateur clique sur "Tous"
+        if (categorie === "tous") {
+
+            afficherCatalogue(catalogue);
+
+        } else {
+
+            let produitsFiltres = [];
+
+            // Parcourir tous les produits
+            for (let j = 0; j < catalogue.length; j++) {
+
+                if (catalogue[j].categorie === categorie) {
+                    produitsFiltres.push(catalogue[j]);
+                }
+            }
+
+            // Afficher les produits trouvés
+            afficherCatalogue(produitsFiltres);
+        }
+
+    });
+}
+
 //======================
 //3. Fonctions de calcul
 //======================
@@ -580,6 +614,9 @@ function afficherCatalogue(catalogue) {
             champNom.value = produitAModifier.nom;
             champPrix.value = produitAModifier.prix;
             champStock.value = produitAModifier.stock;
+            categorieProduit.value = produitAModifier.categorie;
+
+            
         });
     }
 
@@ -648,6 +685,7 @@ function afficherProduitsAdmin(catalogue) {
             champNom.value = produitAModifier.nom;
             champPrix.value = produitAModifier.prix;
             champStock.value = produitAModifier.stock;
+            categorieProduit.value = produitAModifier.categorie;
 
             // Transformer le bouton Ajouter
             boutonAjouter.textContent = "Enregistrer la modification";
@@ -910,6 +948,7 @@ boutonAjouter.addEventListener("click", function () {
     // Number() les transforme en nombres
     let prix = Number(champPrix.value);
     let stock = Number(champStock.value);
+    let categorie = categorieProduit.value;
     // Vérifier que le nom n'est pas vide
     if (nom === "") {
         zoneErreur.textContent = "Veuillez entrer un nom de produit !"
@@ -926,6 +965,12 @@ boutonAjouter.addEventListener("click", function () {
         zoneErreur.textContent = "Veuillez entrer un stock valide !";
         return;
     }
+
+    if (categorie === "") {
+        zoneErreur.textContent = "Veuillez choisir une catégorie !";
+        return;
+    }
+
     // Créer l'objet produit avec les valeurs validées
     let produit = {
         nom: nom,
@@ -941,6 +986,7 @@ boutonAjouter.addEventListener("click", function () {
         donnees.append("nom", nom);
         donnees.append("prix", prix);
         donnees.append("stock", stock);
+        donnees.append("categorie", categorie);
 
         // Envoyer les données au back-end
         fetch("backend/ajouter_produit.php", {
@@ -961,6 +1007,7 @@ boutonAjouter.addEventListener("click", function () {
         donnees.append("nom", nom);
         donnees.append("prix", prix);
         donnees.append("stock", stock);
+        donnees.append("categorie", categorie);
 
         // Envoyer la modification à MariaDB
         fetch("backend/modifier_produit.php", {
@@ -982,6 +1029,7 @@ boutonAjouter.addEventListener("click", function () {
     champNom.value = "";
     champPrix.value = "";
     champStock.value = "";
+    categorieProduit.value = "";
 });
 
 // ANNULER UNE MODIFICATION

@@ -16,6 +16,7 @@ Ce projet a été réalisé progressivement afin de mettre en pratique les notio
 - SQL
 - XAMPP
 - Git
+- GitHub
 
 ## Fonctionnalités principales
 
@@ -34,15 +35,23 @@ Ce projet a été réalisé progressivement afin de mettre en pratique les notio
 - Ajout, modification et suppression de produits
 - Gestion des rôles client / administrateur
 - Interface responsive ordinateur, tablette et mobile
+- Recherche de produits 
+- Filtrage des produits par catégorie 
+- Formulaire de contact avec enregistrement des messages dans MariaDB 
+- Consultation des messages reçus dans l'espace administrateur 
+- Historique des commandes administrateur repliable 
+- Contrôle des quantités selon le stock disponible 
+- Compteur dynamique du panier
 
 ## Base de données
 
 La base de données MariaDB contient les principales tables suivantes :
 
-- `produit` : informations sur les produits, prix, stock et image
+- `produit` : informations sur les produits, prix, stock, image et catégorie
 - `client` : informations des utilisateurs et rôle
 - `commande` : commandes réalisées par les clients
 - `ligne_commande` : produits et quantités associés à chaque commande
+- `message_contact` : messages envoyés depuis le formulaire de contact
 
 Les tables sont reliées entre elles grâce aux identifiants des clients, commandes et produits.
 
@@ -90,6 +99,8 @@ Le dossier `backend` contient les fichiers PHP permettant notamment :
 - l'ajout, la modification et la suppression des produits
 - la validation des commandes
 - la récupération de l'historique des commandes
+- l'enregistrement des messages du formulaire de contact
+- la récupération des messages de contact pour l'administrateur
 
 ### Base de données
 
@@ -142,6 +153,30 @@ Le projet a été testé sur différents parcours :
 - protection des fonctionnalités administrateur
 - validation des données
 - affichage responsive sur ordinateur, tablette et mobile
+- recherche dynamique des produits
+- filtrage des produits par catégorie
+- compteur dynamique du panier
+- formulaire de contact avec enregistrement en base de données
+- consultation des messages dans l'espace administrateur
+- affichage repliable de l'historique des commandes administrateur
+
+## Comptes de démonstration
+
+### Compte client
+
+- Email : `client3@test.fr`
+- Mot de passe : `12345678`
+
+### Compte administrateur
+
+- Email : `test@test.fr`
+- Mot de passe : `123456`
+
+### Utilisation des comptes de démonstration
+
+Le compte client permet de tester le panier, la validation d'une commande et l'historique des commandes personnelles.
+
+Le compte administrateur permet d'accéder à l'espace d'administration, de gérer le catalogue, de consulter l'historique des commandes et de lire les messages reçus depuis le formulaire de contact.
 
 ## Versionnement avec Git
 

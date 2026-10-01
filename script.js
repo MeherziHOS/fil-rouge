@@ -119,7 +119,8 @@ function verifierClientConnecte() {
                     fetch("backend/deconnexion.php")
                         .then(response => response.text())
                         .then(data => {
-                            location.reload();
+                            window.location.href = window.location.pathname + "#compte";
+                            window.location.reload();
                         });
 
                 });
@@ -293,8 +294,13 @@ boutonInscription.addEventListener("click", function () {
         .then(response => response.text())
         .then(data => {
             messageInscription.textContent = data;
-        });
 
+            if (data.trim() === "Compte créé") {
+                inscriptionNom.value = "";
+                inscriptionEmail.value = "";
+                inscriptionMotDePasse.value = "";
+            }
+        });
 });
 
 // Charger l'historique des commandes depuis MariaDB

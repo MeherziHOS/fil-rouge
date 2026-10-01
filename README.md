@@ -1,6 +1,6 @@
 # Fil Rouge - Boutique de matériel informatique
 
-![Aperçu de la boutique Fil Rouge](images/hero_fil_rouge.png)
+![Aperçu de la boutique Fil Rouge](images/apercu_fil_rouge.png)
 
 ## Présentation
 

@@ -70,6 +70,8 @@ let boutonsFiltres = document.querySelectorAll(".filtre-produit");
 let zoneMessageCommande = document.getElementById("messageCommande");
 // Historique des commandes
 let zoneHistorique = document.getElementById("historiqueCommandes");
+let btnHistoriqueCommandes = document.getElementById("btnHistoriqueCommandes");
+
 let zoneMessagesContactAdmin = document.getElementById("messagesContactAdmin");
 // Formulaire d'inscription
 let inscriptionNom = document.getElementById("inscriptionNom");
@@ -98,6 +100,21 @@ let categorieProduit = document.getElementById("categorieProduit");
 
 
 sectionAdmin.style.display = "none";
+// Cacher l'historique des commandes au départ
+zoneHistorique.style.display = "none";
+
+// Afficher ou masquer l'historique des commandes
+btnHistoriqueCommandes.addEventListener("click", function () {
+
+    if (zoneHistorique.style.display === "none") {
+        zoneHistorique.style.display = "block";
+        btnHistoriqueCommandes.textContent = "Masquer ▲";
+    } else {
+        zoneHistorique.style.display = "none";
+        btnHistoriqueCommandes.textContent = "Afficher ▼";
+    }
+
+});
 
 function verifierClientConnecte() {
 

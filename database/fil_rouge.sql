@@ -38,7 +38,7 @@ INSERT INTO client (nom, email, mot_de_passe, role) VALUES
     'client3@test.fr',
     '$2y$10$PLVt.Tnp6234RuMEoGKgdeiiEvP0jy8xYKZ9tuAsxxfA6lolQv7pW',
     'client'
-);s
+);
 
 CREATE TABLE commande (
     id_commande INT PRIMARY KEY AUTO_INCREMENT,

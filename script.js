@@ -37,6 +37,9 @@ let indexModification = null;
 //==================
 //2. Elément du DOM
 //==================
+let formContact = document.getElementById("formContact");
+let messageContact = document.getElementById("messageContact");
+
 // Champs du formulaire "Gestion des produits"
 let champNom = document.getElementById("nomProduit");
 let champPrix = document.getElementById("prixProduit");
@@ -1168,6 +1171,50 @@ boutonValiderCommande.addEventListener("click", function () {
         });
 });
 
+formContact.addEventListener("submit", function (event) {
+
+    // Empêcher le rechargement automatique de la page
+    event.preventDefault();
+
+    let nom = document.getElementById("contactNom").value.trim();
+    let email = document.getElementById("contactEmail").value.trim();
+    let sujet = document.getElementById("contactSujet").value.trim();
+    let message = document.getElementById("contactMessage").value.trim();
+
+    // Vérifier que tous les champs sont remplis
+    if (
+        nom === "" ||
+        email === "" ||
+        sujet === "" ||
+        message === ""
+    ) {
+        messageContact.textContent = "Veuillez remplir tous les champs.";
+        return;
+    }
+
+    // Préparer les données du message
+    let donneesContact = new FormData();
+
+    donneesContact.append("nom", nom);
+    donneesContact.append("email", email);
+    donneesContact.append("sujet", sujet);
+    donneesContact.append("message", message);
+
+    // Envoyer le message au back-end
+    fetch("backend/envoyer_message.php", {
+        method: "POST",
+        body: donneesContact
+    })
+        .then(response => response.json())
+        .then(data => {
+
+            messageContact.textContent = data.message;
+            if (data.success === true) {
+                formContact.reset();
+            }
+
+        });
+});
 // ==========================================
 // NAVIGATION FLOTTANTE AU DÉFILEMENT
 // ==========================================

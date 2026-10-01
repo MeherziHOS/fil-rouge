@@ -31,3 +31,12 @@ CREATE TABLE ligne_commande (
     FOREIGN KEY (id_commande) REFERENCES commande(id_commande),
     FOREIGN KEY (id_produit) REFERENCES produit(id_produit)
 );
+
+CREATE TABLE message_contact (
+    id_message INT PRIMARY KEY AUTO_INCREMENT,
+    nom VARCHAR(100) NOT NULL,
+    email VARCHAR(150) NOT NULL,
+    sujet VARCHAR(150) NOT NULL,
+    message TEXT NOT NULL,
+    date_message DATETIME DEFAULT CURRENT_TIMESTAMP
+);

@@ -1,5 +1,7 @@
 # Fil Rouge - Boutique de matériel informatique
 
+![Aperçu de la boutique Fil Rouge](images/hero_fil_rouge.png)
+
 ## Présentation
 
 Fil Rouge est une application web e-commerce de vente de matériel informatique.

@@ -1456,3 +1456,23 @@ input {
     stroke-linecap: round;
     stroke-linejoin: round;
 }
+
+/* ============================= */
+/* Messages reçus - Administration */
+/* ============================= */
+
+.message-contact-admin {
+    background-color: #f3f4f6;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+}
+
+.message-contact-admin h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.message-contact-admin p {
+    margin: 7px 0;
+}

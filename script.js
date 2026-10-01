@@ -70,6 +70,7 @@ let boutonsFiltres = document.querySelectorAll(".filtre-produit");
 let zoneMessageCommande = document.getElementById("messageCommande");
 // Historique des commandes
 let zoneHistorique = document.getElementById("historiqueCommandes");
+let zoneMessagesContactAdmin = document.getElementById("messagesContactAdmin");
 // Formulaire d'inscription
 let inscriptionNom = document.getElementById("inscriptionNom");
 let inscriptionEmail = document.getElementById("inscriptionEmail");
@@ -95,6 +96,7 @@ let formulairesCompte = document.getElementById("formulairesCompte");
 let sectionAdmin = document.getElementById("sectionAdmin");
 let categorieProduit = document.getElementById("categorieProduit");
 
+
 sectionAdmin.style.display = "none";
 
 function verifierClientConnecte() {
@@ -107,6 +109,7 @@ function verifierClientConnecte() {
 
                 if (data.role === "admin") {
                     sectionAdmin.style.display = "block";
+                    chargerMessagesContact();
                 }
 
                 formulairesCompte.style.display = "none";
@@ -389,31 +392,59 @@ function chargerHistoriqueCommandes() {
 
 chargerHistoriqueCommandes();
 
-// RECHERCHER UN PRODUIT
-rechercheProduit.addEventListener("input", function () {
+// Charger les messages de contact dans l'espace administrateur
+function chargerMessagesContact() {
 
-    // Récupérer le texte écrit par l'utilisateur
-    let texteRecherche = rechercheProduit.value.toLowerCase();
+    fetch("backend/messages_contact.php")
+        .then(response => response.json())
+        .then(messages => {
 
-    // Tableau qui contiendra les produits trouvés
-    let produitsFiltres = [];
+            // Vider l'ancien affichage
+            zoneMessagesContactAdmin.innerHTML = "";
 
-    // Parcourir le catalogue
-    for (let i = 0; i < catalogue.length; i++) {
+            // Parcourir tous les messages
+            for (let i = 0; i < messages.length; i++) {
 
-        // Récupérer le nom du produit en minuscules
-        let nomProduit = catalogue[i].nom.toLowerCase();
+                let message = messages[i];
 
-        // Vérifier si le nom contient le texte recherché
-        if (nomProduit.includes(texteRecherche)) {
+                zoneMessagesContactAdmin.innerHTML +=
+                    "<div class='message-contact-admin'>" +
+                    "<h4>" + message.sujet + "</h4>" +
+                    "<p><strong>De :</strong> " + message.nom + "</p>" +
+                    "<p><strong>Email :</strong> " + message.email + "</p>" +
+                    "<p><strong>Date :</strong> " + message.date_message + "</p>" +
+                    "<p>" + message.message + "</p>" +
+                    "</div>";
+            }
 
-            produitsFiltres.push(catalogue[i]);
+        });
+} +
+
+    // RECHERCHER UN PRODUIT
+    rechercheProduit.addEventListener("input", function () {
+
+        // Récupérer le texte écrit par l'utilisateur
+        let texteRecherche = rechercheProduit.value.toLowerCase();
+
+        // Tableau qui contiendra les produits trouvés
+        let produitsFiltres = [];
+
+        // Parcourir le catalogue
+        for (let i = 0; i < catalogue.length; i++) {
+
+            // Récupérer le nom du produit en minuscules
+            let nomProduit = catalogue[i].nom.toLowerCase();
+
+            // Vérifier si le nom contient le texte recherché
+            if (nomProduit.includes(texteRecherche)) {
+
+                produitsFiltres.push(catalogue[i]);
+            }
         }
-    }
 
-    // Afficher uniquement les produits trouvés
-    afficherCatalogue(produitsFiltres);
-});
+        // Afficher uniquement les produits trouvés
+        afficherCatalogue(produitsFiltres);
+    });
 // CLIC SUR LA LOUPE DU HEADER
 boutonRecherche.addEventListener("click", function (event) {
 

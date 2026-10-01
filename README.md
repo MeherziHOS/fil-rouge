@@ -190,4 +190,4 @@ Des commits sont réalisés aux différentes étapes importantes du développeme
 
 Le projet Fil Rouge dispose actuellement d'un front-end, d'un back-end PHP et d'une base de données MariaDB fonctionnels.
 
-Les principales fonctionnalités e-commerce, l'authentification, la gestion des commandes, l'administration, la sécurité et le responsive ont été intégrés et testés.
+Les principales fonctionnalités e-commerce, l'authentification, la gestion des commandes, l'administration, la sécurité et le responsive ont été intégrées et testées.

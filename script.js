@@ -435,7 +435,7 @@ function chargerMessagesContact() {
             }
 
         });
-} +
+}
 
     // RECHERCHER UN PRODUIT
     rechercheProduit.addEventListener("input", function () {

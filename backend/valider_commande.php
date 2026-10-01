@@ -152,7 +152,7 @@ $produitBase = $requetePrix->fetch(PDO::FETCH_ASSOC);
 
     echo json_encode([
         "success" => false,
-        "message" => $erreur->getMessage()
+        "message" =>"Une erreur est survenue lors de la validation de la commande.",
     ]);
 }
 

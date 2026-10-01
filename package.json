@@ -4,7 +4,7 @@
   "description": "Fil Rouge est une application web e-commerce de vente de matériel informatique.",
   "main": "script.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest run"
   },
   "keywords": [],
   "author": "",
